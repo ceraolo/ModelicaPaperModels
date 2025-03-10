@@ -1,0 +1,17 @@
+The code in this folder is associated with the following paper:
+"Battery electric vehicles: how many gears?"
+published on MDPI's Vehicles, 2024, 6, 71-92, https://doi.org/10.3390/
+vehicles6010003
+
+It is intended for the use of the readers of this paper. It can be re-run, as is or with changes, and the results of these simulations freely used.
+
+Any use of the code different from running it in a Modelica tool, e.g. inclusion in other modelica models, or reproduction of it or parts of it in published material (papers, leaflets, etc), must carry quotation of the above-mentioned paper. 
+
+
+An example of such quotation is as follows
+
+This piece of code was drawn form the code made available on a gitHub archive from the authors of the paper 
+"Battery electric vehicles: how many gears?"
+published on MDPI's Vehicles, 2024, 6, 71-92, https://doi.org/10.3390/
+vehicles6010003
+ 
