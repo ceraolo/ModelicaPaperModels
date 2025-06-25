@@ -1339,14 +1339,14 @@ AVG")}));
       Modelica.Electrical.Analog.Interfaces.NegativePin pin_ac annotation(
         Placement(transformation(origin = {100, -62}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {98, -60}, extent = {{-10, -10}, {10, 10}})));
     equation
-//Kirchhoff balance:
+      //Kirchhoff balance:
       pin_p.i + pin_n.i = 0;
       plug.pin[1].i + plug.pin[2].i + plug.pin[3].i + pin_ac.i = 0;
-//Apply input voltages:
+      //Apply input voltages:
       for i in 1:3 loop
         plug.pin[i].v - pin_ac.v = u[i];
       end for;
-//Power balance (three equations; entering DC power follows exiting AC's) :
+      //Power balance (three equations; entering DC power follows exiting AC's) :
       acPow = plug.pin[1].i*(plug.pin[1].v - pin_ac.v) + plug.pin[2].i*(plug.pin[2].v - pin_ac.v) + plug.pin[3].i*(plug.pin[3].v - pin_ac.v);
       dcPow = pin_p.i*(pin_p.v - pin_n.v);
       delay*der(dcPow) + dcPow = -acPow;
@@ -1665,7 +1665,7 @@ AVG")}));
       connect(plug, vscCurr.plug_n) annotation(
         Line(points = {{100, 28}, {80, 28}}, color = {0, 0, 255}));
       connect(vscCurr.i, GFDControl.iabc) annotation(
-        Line(points = {{72, 36.8}, {72, 66}, {-104, 66}, {-104, -25.12}, {-90.2, -25.12}}, color = {0, 0, 127}));
+        Line(points = {{72, 36.8}, {72, 96}, {-104, 96}, {-104, -25.12}, {-90.2, -25.12}}, color = {0, 0, 127}));
       connect(GFDControl.qRef, qRef) annotation(
         Line(points = {{-90.2, -47.8}, {-92, -48}, {-140, -48}}, color = {0, 0, 127}));
       connect(pRef, GFDControl.pRef) annotation(
@@ -1692,7 +1692,7 @@ AVG")}));
         Line(points = {{50, 22}, {50, 28}, {42, 28}}, color = {0, 0, 255}));
       annotation(
         Icon(coordinateSystem(preserveAspectRatio = false), graphics = {Text(textColor = {0, 0, 255}, extent = {{-106, 146}, {104, 104}}, textString = "%name"), Rectangle(fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-100, 100}, {100, -100}}), Text(extent = {{-94, 70}, {-28, 52}}, textString = "pRef"), Text(extent = {{-94, -50}, {-28, -68}}, textString = "qRef"), Line(points = {{-86, 14}, {-30, 14}}), Rectangle(extent = {{-24, 84}, {74, -80}}, lineColor = {28, 108, 200}), Line(points = {{-24, -80}, {74, 84}}, color = {28, 108, 200}), Line(points = {{10, -54}, {20, -36}, {30, -36}, {44, -68}, {54, -68}, {62, -50}}), Line(points = {{92, 58}, {74, 58}}, color = {28, 108, 200}), Line(points = {{90, -60}, {74, -60}}, color = {28, 108, 200}), Line(points = {{-24, 42}, {-58, 42}, {-58, 14}}, color = {28, 108, 200}), Line(points = {{-24, -38}, {-58, -38}, {-58, -10}}, color = {28, 108, 200}), Line(points = {{-8, 60}, {34, 60}}), Rectangle(fillPattern = FillPattern.Solid, extent = {{-72, 0}, {-44, -12}}), Text(extent = {{-34, 30}, {84, -28}}, textColor = {0, 0, 0}, textString = "GFD")}),
-        Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -80}, {100, 80}})),
+        Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-120, -80}, {100, 100}})),
         Documentation(info = "<html>
 <p>Models a, AC-interfaced Battery energy storage system.</p>
 <p>It contains a Constant DC source, and a Voltage Sourced Converter (VSC), and its control</p>
@@ -2504,118 +2504,6 @@ sq.cage")}),
           experiment(StopTime = 0.2, __Dymola_Algorithm = "Dassl"));
       end TestArcQuench;
 
-      model TestArcQuenchClose
-        Modelica.Electrical.Polyphase.Sources.SineVoltage sineVoltage(m = 3, V = fill(100, 3), f = fill(50, 3)) annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {-114, 8})));
-        Modelica.Electrical.Polyphase.Basic.Inductor inductor(L = fill(1e-3, 3)) annotation(
-          Placement(transformation(extent = {{-52, 14}, {-32, 34}})));
-        Modelica.Electrical.Polyphase.Basic.Resistor resistor(R = fill(10, 3)) annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {-14, 8})));
-        Modelica.Electrical.Polyphase.Basic.Star star annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {-62, -24})));
-        Modelica.Electrical.Analog.Basic.Ground ground annotation(
-          Placement(transformation(extent = {{-72, -60}, {-52, -40}})));
-        Modelica.Blocks.Sources.BooleanStep close(startTime = 0.1) annotation(
-          Placement(transformation(extent = {{-118, 32}, {-98, 52}})));
-        CloserArc closerArc annotation(
-          Placement(transformation(extent = {{-84, 18}, {-72, 30}})));
-        Modelica.Electrical.Polyphase.Sources.SineVoltage sineVoltage1(m = 3, V = fill(100, 3), f = fill(50, 3)) annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {14, 10})));
-        Modelica.Electrical.Polyphase.Basic.Inductor inductor1(L = fill(1e-3, 3)) annotation(
-          Placement(transformation(extent = {{76, 16}, {96, 36}})));
-        Modelica.Electrical.Polyphase.Basic.Resistor resistor1(R = fill(10, 3)) annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {114, 10})));
-        Modelica.Electrical.Polyphase.Basic.Star star1 annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {66, -22})));
-        Modelica.Electrical.Analog.Basic.Ground ground1 annotation(
-          Placement(transformation(extent = {{56, -58}, {76, -38}})));
-        Modelica.Blocks.Sources.BooleanStep close1[3](startTime = 0.1*ones(3)) annotation(
-          Placement(transformation(extent = {{10, 36}, {30, 56}})));
-        Modelica.Electrical.Polyphase.Ideal.CloserWithArc switch(Ron = fill(1e-5, 3), Goff = fill(1e-5, 3), V0 = fill(30, 3), dVdt = fill(10000, 3), Vmax = fill(60, 3)) annotation(
-          Placement(transformation(extent = {{36, 16}, {56, 36}})));
-      equation
-        connect(inductor.plug_n, resistor.plug_p) annotation(
-          Line(points = {{-32, 24}, {-14, 24}, {-14, 18}}, color = {0, 0, 255}));
-        connect(sineVoltage.plug_n, resistor.plug_n) annotation(
-          Line(points = {{-114, -2}, {-114, -6}, {-14, -6}, {-14, -2}}, color = {0, 0, 255}));
-        connect(star.plug_p, resistor.plug_n) annotation(
-          Line(points = {{-62, -14}, {-62, -6}, {-14, -6}, {-14, -2}}, color = {0, 0, 255}));
-        connect(star.pin_n, ground.p) annotation(
-          Line(points = {{-62, -34}, {-62, -40}}, color = {0, 0, 255}));
-        connect(inductor.plug_p, closerArc.nPlug) annotation(
-          Line(points = {{-52, 24}, {-72, 24}}, color = {0, 0, 255}));
-        connect(sineVoltage.plug_p, closerArc.pPlug) annotation(
-          Line(points = {{-114, 18}, {-114, 24}, {-84, 24}}, color = {0, 0, 255}));
-        connect(close.y, closerArc.u) annotation(
-          Line(points = {{-97, 42}, {-80, 42}, {-80, 31}}, color = {255, 0, 255}));
-        connect(inductor1.plug_n, resistor1.plug_p) annotation(
-          Line(points = {{96, 26}, {114, 26}, {114, 20}}, color = {0, 0, 255}));
-        connect(sineVoltage1.plug_n, resistor1.plug_n) annotation(
-          Line(points = {{14, 0}, {14, -4}, {114, -4}, {114, 0}}, color = {0, 0, 255}));
-        connect(star1.plug_p, resistor1.plug_n) annotation(
-          Line(points = {{66, -12}, {66, -4}, {114, -4}, {114, 0}}, color = {0, 0, 255}));
-        connect(star1.pin_n, ground1.p) annotation(
-          Line(points = {{66, -32}, {66, -38}}, color = {0, 0, 255}));
-        connect(inductor1.plug_p, switch.plug_n) annotation(
-          Line(points = {{76, 26}, {56, 26}}, color = {0, 0, 255}));
-        connect(sineVoltage1.plug_p, switch.plug_p) annotation(
-          Line(points = {{14, 20}, {14, 26}, {36, 26}}, color = {0, 0, 255}));
-        connect(close1.y, switch.control) annotation(
-          Line(points = {{31, 46}, {46, 46}, {46, 38}}, color = {255, 0, 255}));
-        annotation(
-          Icon(coordinateSystem(preserveAspectRatio = false)),
-          Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-80, -60}, {80, 60}})),
-          experiment(StopTime = 0.2, __Dymola_Algorithm = "Dassl"));
-      end TestArcQuenchClose;
-
-      model CloserArc
-        Modelica.Blocks.Interfaces.BooleanInput u annotation(
-          Placement(transformation(extent = {{-20, -20}, {20, 20}}, rotation = 90, origin = {0, -78}), iconTransformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {-20, 70})));
-        Modelica.Blocks.Sources.RealExpression resVal_[3](y = fill(resVal, 3)) annotation(
-          Placement(transformation(extent = {{-40, 14}, {-20, 34}})));
-        final constant Real e = Modelica.Math.exp(1.0);
-        parameter Modelica.Units.SI.Time tQuench = 10e-3 "Closing time";
-        parameter Modelica.Units.SI.Resistance rMin = 1e-5 "Closed arc resistance ";
-        parameter Modelica.Units.SI.Resistance rMax = 1e5 "Open arc resistance ";
-        Modelica.Units.SI.Resistance resVal "Actual arc resistance ";
-        Modelica.Units.SI.Time tStart(start = 1e99, fixed = true) "Initial closing time";
-        Modelica.Electrical.Polyphase.Basic.VariableResistor resistor annotation(
-          Placement(transformation(extent = {{-10, -10}, {10, 10}})));
-        Modelica.Electrical.Polyphase.Interfaces.PositivePlug pPlug annotation(
-          Placement(transformation(extent = {{-70, -10}, {-50, 10}})));
-        Modelica.Electrical.Polyphase.Interfaces.NegativePlug nPlug annotation(
-          Placement(transformation(extent = {{50, -10}, {70, 10}})));
-      equation
-        when u then
-          tStart = time;
-        end when;
-        if time < tStart then
-          resVal = rMax;
-        else
-          if time < tStart + tQuench then
-            resVal = rMin + (rMax - rMin)*e^(-((time - tStart)/(0.1*tQuench))) "resVal exponentially decreases: e^(-t/tau)  ---->  0.1 * tQuench = tau";
-//      resVal = rMax - (rMax - rMin)*((time - tStart)/tQuench) "linear";
-          else
-            resVal = rMin;
-          end if;
-        end if;
-        connect(resistor.plug_n, nPlug) annotation(
-          Line(points = {{10, 0}, {60, 0}}, color = {0, 0, 255}));
-        connect(pPlug, resistor.plug_p) annotation(
-          Line(points = {{-60, 0}, {-10, 0}}, color = {0, 0, 255}));
-        connect(resVal_.y, resistor.R) annotation(
-          Line(points = {{-19, 24}, {0, 24}, {0, 12}}, color = {0, 0, 127}));
-        annotation(
-          Icon(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -60}, {60, 60}}), graphics = {Line(points = {{14, 40}}, color = {28, 108, 200}), Line(points = {{34, 26}, {14, 14}, {36, 0}, {14, -12}, {36, -26}, {14, -36}}, color = {238, 46, 47}), Line(points = {{34, 26}, {14, 36}}, color = {238, 46, 47}), Line(points = {{-60, 0}, {-22, 0}, {-2, 18}}, color = {28, 108, 200}), Line(points = {{40, 0}, {64, 0}}, color = {28, 108, 200}), Line(points = {{-4, 6}, {-4, 0}, {16, 0}}, color = {28, 108, 200}), Line(points = {{86, 42}}, color = {0, 0, 0}, thickness = 0.5), Line(points = {{-20, 54}, {-20, 8}}, color = {255, 0, 255}, pattern = LinePattern.Dash, thickness = 0.25), Line(points = {{-80, 42}}, color = {0, 0, 0}, thickness = 0.25), Text(extent = {{-80, -52}, {82, -82}}, textColor = {0, 0, 255}, textString = "%name")}),
-          Diagram(coordinateSystem(preserveAspectRatio = false, extent = {{-60, -60}, {60, 60}}), graphics = {Text(origin = {10, 43}, extent = {{-40, 3}, {40, -3}}, horizontalAlignment = TextAlignment.Left, textString = "resVal computed in the code", textColor = {0, 0, 0})}),
-          Documentation(info = "<html>
-<p>Simulates arc quench in a breaker.</p>
-<p>When the input signal becomes ON, arc resistance grows exponentially from rMin to rMax in time tQuench.</p>
-<p>the value of rMin should be very small (simulates the contacts of a closed breaker), rMax very large (simulates the open contacts gap resistance).</p>
-<p>This resistance growth causes current to go to nearly zero, i.e. the breaker to open.</p>
-</html>"));
-      end CloserArc;
-
       model BreakerArc
         Modelica.Blocks.Interfaces.BooleanInput u annotation(
           Placement(transformation(extent = {{-20, -20}, {20, 20}}, rotation = 90, origin = {0, -78}), iconTransformation(extent = {{-10, -10}, {10, 10}}, rotation = -90, origin = {-20, 70})));
@@ -2671,13 +2559,13 @@ sq.cage")}),
       import Modelica.Constants.pi;
       Real V_rms;
       VSC_GFL_GFM.Electric.DistortedGrid gridMV(ampl = 20000*sqrt(2/3), R = 0.072, L = 6e-3) annotation(
-        Placement(transformation(origin = {-8, 0}, extent = {{136, -28}, {156, -8}})));
+        Placement(transformation(origin = {-12, 0}, extent = {{136, -28}, {156, -8}})));
       Modelica.Electrical.Polyphase.Sensors.AronSensor pGrid annotation(
-        Placement(transformation(origin = {94, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+        Placement(transformation(origin = {90, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
       Modelica.Electrical.Polyphase.Sensors.ReactivePowerSensor qGrid annotation(
-        Placement(transformation(origin = {114, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
+        Placement(transformation(origin = {110, -2}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
       Modelica.Electrical.Analog.Basic.Ground ground1 annotation(
-        Placement(transformation(origin = {-8, 0}, extent = {{136, -60}, {156, -40}})));
+        Placement(transformation(origin = {-12, 0}, extent = {{136, -60}, {156, -40}})));
       VSC_GFL_GFM.Electric.MV.ImTransfDy imTransfDy(Sbase = 30e3) annotation(
         Placement(transformation(origin = {8, 8}, extent = {{-92, -8}, {-72, 12}})));
       VSC_GFL_GFM.Electric.MV.CableRLMV cable1 annotation(
@@ -2711,11 +2599,11 @@ sq.cage")}),
     equation
       V_rms = loadRLTransf.voltageRMSSensor.V;
       connect(pGrid.plug_p, qGrid.plug_n) annotation(
-        Line(points = {{104, -2}, {104, -2}}, color = {0, 0, 255}));
+        Line(points = {{100, -2}, {100, -2}}, color = {0, 0, 255}));
       connect(qGrid.plug_p, gridMV.plug) annotation(
-        Line(points = {{124, -2}, {138, -2}, {138, -8.2}, {138.2, -8.2}}, color = {0, 0, 255}));
+        Line(points = {{120, -2}, {134, -2}, {134, -8.2}, {134.2, -8.2}}, color = {0, 0, 255}));
       connect(gridMV.pin, ground1.p) annotation(
-        Line(points = {{138, -28}, {138, -40}}, color = {0, 0, 255}));
+        Line(points = {{134, -28}, {134, -40}}, color = {0, 0, 255}));
       connect(cable1.positivePlug, cable2.negativePlug) annotation(
         Line(points = {{34, 28}, {34, 36}, {-4, 36}}, color = {0, 0, 255}));
       connect(cable2.positivePlug, cable3.negativePlug) annotation(
@@ -2739,15 +2627,15 @@ sq.cage")}),
       connect(VSC1.pqRef, PQrefVsc1.y) annotation(
         Line(points = {{-46, 2.4}, {-46, -19.2}}, color = {0, 0, 127}));
       connect(breaker.nPlug, pGrid.plug_n) annotation(
-        Line(points = {{58, -2}, {84, -2}}, color = {0, 0, 255}));
+        Line(points = {{58, -2}, {80, -2}}, color = {0, 0, 255}));
       connect(breaker.pPlug, cable1.negativePlug) annotation(
         Line(points = {{46, -2}, {34, -2}, {34, 8}}, color = {0, 0, 255}));
       connect(goToIsland.y, breaker.u) annotation(
         Line(points = {{59, 34}, {50, 34}, {50, 5}}, color = {255, 0, 255}));
       annotation(
-        Diagram(coordinateSystem(extent = {{-160, -60}, {160, 60}})),
+        Diagram(coordinateSystem(extent = {{-140, -60}, {160, 60}})),
         experiment(StartTime = -3, StopTime = 10, Interval = 0.000433333, Tolerance = 1e-06),
-        Documentation(info = "<html>
+        Documentation(info="<html>
 <p>the micro-grid (VSC1 + VSC2 + LoadRL + induction motor) is generating active and reactive power, more than its demand (little P and Q exports when connected to external grid)</p>
 <p>however, when switching to island mode the grid following VSCs are not able to sustain the micro-grid -&gt; black-out</p>
 <ul>
@@ -2756,7 +2644,10 @@ sq.cage")}),
 <li>induction 3ph motor consuming 30 kVA</li>
 <li>RL load,&nbsp;10 kW&nbsp;with cos fi =0.9</li>
 </ul>
-<p><br>simulation is stopped when RMS Voltage measured at LoadRL is &lt;50V or &gt;500V</p>
+<p><br>The simulation is stopped when RMS Voltage measured at LoadRL is &lt;50V or &gt;500V</p>
+<p><i>This model reproduces the results of figure 10 of the &quot;Companion paper&quot; .</i></p>
+<p><i>Powers in figure (a) are VSC1.pVsc and VSC2.pVsc respectively.</i></p>
+<p><i>Voltages in figure (b) are voltages across model &quot;loadRLTransf&quot;</i></p>
 </html>"),
         Icon(coordinateSystem(extent = {{-140, -140}, {300, 140}})));
     end case0_Figure10;
@@ -2796,9 +2687,10 @@ sq.cage")}),
         Placement(transformation(extent = {{-48, 4}, {-28, 24}})));
       Electric.MV.GfdBesCTransfDy VSC2(sNom = 150e3) annotation(
         Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 0, origin = {-128, 14})));
-  Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime = 2) annotation(
+      Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime=2)
+        annotation (
         Placement(transformation(origin = {-10, 0}, extent = {{106, 24}, {86, 44}})));
-  VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation(
+      VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation (
         Placement(transformation(origin = {-8, 6}, extent = {{66, -8}, {78, 4}})));
     equation
       connect(pGrid.plug_p, qGrid.plug_n) annotation(
@@ -2829,16 +2721,19 @@ sq.cage")}),
         Line(points = {{-4, 42}, {42, 42}, {42, 30}}, color = {0, 0, 255}));
       connect(loadRLTransf.plugIn, cable1.positivePlug) annotation(
         Line(points = {{8, 24}, {8, 42}, {42, 42}, {42, 30}}, color = {0, 0, 255}));
-  connect(breaker.pPlug, cable1.negativePlug) annotation(
+      connect(
+          breaker.pPlug, cable1.negativePlug) annotation (
         Line(points = {{58, 4}, {42, 4}, {42, 10}}, color = {0, 0, 255}));
-  connect(breaker.nPlug, pGrid.plug_n) annotation(
+      connect(
+          breaker.nPlug, pGrid.plug_n) annotation (
         Line(points = {{70, 4}, {92, 4}}, color = {0, 0, 255}));
-  connect(breaker.u, goToIsland.y) annotation(
-        Line(points = {{62, 12}, {62, 34}, {76, 34}}, color = {255, 0, 255}));
+      connect(
+          breaker.u, goToIsland.y) annotation (
+        Line(points={{62,11},{62,34},{75,34}},        color = {255, 0, 255}));
       annotation(
         Diagram(coordinateSystem(extent = {{-160, -60}, {160, 60}})),
         experiment(StartTime = -3, StopTime = 10, Interval = 0.000433333, Tolerance = 1e-06),
-        Documentation(info = "<html>
+        Documentation(info="<html>
 <p>the micro-grid (VSC1 + VSC2 + LoadRL + induction motor) is a net load for the external grid.</p>
 <p>however, when switching to island mode the grid forming VSCs are able to sustain the micro-grid.</p>
 <ul>
@@ -2848,6 +2743,11 @@ sq.cage")}),
 <li>RL load, 50 kW with cos fi =0.9</li>
 </ul>
 <p><br>VSC1 and VSC2 equipped with <b>GFM-droop</b> control strategy and slightly different P and Q droop coefficients (0.05-0.05 and 0.06-0.04)</p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">This model reproduces the results of figure 11 of the &quot;Companion paper&quot; .</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (a) are pGrid.Power, VSC1.pVsc.Power, VSC2.pVsc.Power, loadRLTransf.pLoad.power and imTransfDy.pIm.power respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltages in figure (b) are voltages across model &quot;loadRLTransf&quot;</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltage in figure (c) is quasi RMS value measured across &quot;loadRL&quot;, loadRLTransf.voltageRMSSensor.V</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Frequencies in figure (d) are VSC1.gfdBesC.GFDControl.toHz.y and &nbsp;VSC2.gfdBesC.GFDControl.toHz.y</span></i></p>
 </html>"),
         Icon(coordinateSystem(extent = {{-160, -60}, {160, 60}})));
     end case1_GFMdroop_Figure11;
@@ -2886,9 +2786,10 @@ sq.cage")}),
         Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 0, origin = {-128, 12})));
       Modelica.Electrical.Analog.Basic.Ground ground5 annotation(
         Placement(transformation(origin = {144, -42}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime = 2) annotation(
+      Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime=2)
+        annotation (
         Placement(transformation(origin = {4, -90}, extent = {{106, 24}, {86, 44}})));
-  VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation(
+      VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation (
         Placement(transformation(origin = {2, 2}, extent = {{66, 8}, {78, -4}})));
     equation
       connect(pGrid.plug_p, qGrid.plug_n) annotation(
@@ -2919,20 +2820,25 @@ sq.cage")}),
         Line(points = {{-140, 4.4}, {-140, 4}, {-145, 4}, {-145, -11.3}}, color = {0, 0, 127}));
       connect(VSC1.pqRef, pqRefVsc1.y) annotation(
         Line(points = {{-38, 4.4}, {-38, 4}, {-46, 4}, {-46, -9.3}, {-47, -9.3}}, color = {0, 0, 127}));
-  connect(breaker.nPlug, pGrid.plug_n) annotation(
+      connect(
+          breaker.nPlug, pGrid.plug_n) annotation (
         Line(points = {{80, 4}, {94, 4}, {94, 2}}, color = {0, 0, 255}));
-  connect(breaker.pPlug, cable1.negativePlug) annotation(
+      connect(
+          breaker.pPlug, cable1.negativePlug) annotation (
         Line(points = {{68, 4}, {50, 4}, {50, 12}}, color = {0, 0, 255}));
-  connect(breaker.u, goToIsland.y) annotation(
-        Line(points = {{72, -2}, {72, -56}, {89, -56}}, color = {255, 0, 255}));
-  connect(VSC1.mode, goToIsland.y) annotation(
-        Line(points = {{-14, 4}, {0, 4}, {0, -56}, {90, -56}}, color = {255, 0, 255}));
-  connect(VSC2.mode, goToIsland.y) annotation(
-        Line(points = {{-116, 4}, {-108, 4}, {-108, -56}, {90, -56}}, color = {255, 0, 255}));
+      connect(
+          breaker.u, goToIsland.y) annotation (
+        Line(points={{72,-3},{72,-56},{89,-56}},        color = {255, 0, 255}));
+      connect(
+          VSC1.mode, goToIsland.y) annotation (
+        Line(points={{-14,4.2},{0,4.2},{0,-56},{89,-56}},      color = {255, 0, 255}));
+      connect(
+          VSC2.mode, goToIsland.y) annotation (
+        Line(points={{-116,4.2},{-108,4.2},{-108,-56},{89,-56}},      color = {255, 0, 255}));
       annotation(
         Diagram(coordinateSystem(extent = {{-160, -60}, {160, 60}})),
         experiment(StartTime = -3, StopTime = 10, Interval = 0.000433333, Tolerance = 1e-06),
-        Documentation(info = "<html>
+        Documentation(info="<html>
 <p>the micro-grid (VSC1 + VSC2 + LoadRL + induction motor) is a net load for the external grid.</p>
 <p>however, when switching to island mode the grid forming VSCs are able to sustain the micro-grid.</p>
 <ul>
@@ -2942,6 +2848,11 @@ sq.cage")}),
 <li>RL load, 50 kW with cos fi =0.9</li>
 </ul>
 <p><br>VSC1 and VSC2 equipped with <b>GFM-VSM</b> control strategy and slightly different P and Q droop coefficients (0.05-0.05 and 0.06-0.04)</p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">This model reproduces the results of figure 12 of the &quot;Companion paper&quot; .</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (a) are pGrid.Power, VSC1.pVsc.Power, VSC2.pVsc.Power, loadRLTransf.pLoad.power and imTransfDy.pIm.power respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltages in figure (b) are voltages across model &quot;loadRLTransf&quot;</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltage in figure (c) is quasi RMS value measured across &quot;loadRL&quot;, loadRLTransf.voltageRMSSensor.V</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Frequencies in figure (d) are VSC1.vsmBesC.VSMcontrol.activeLoopVsm.toHz.y and VSC2.vsmBesC.VSMcontrol.activeLoopVsm.toHz.y </span></i></p>
 </html>"),
         Icon(coordinateSystem(extent = {{-160, -60}, {180, 60}})));
     end case1_GFMVSM_Figure12;
@@ -2980,9 +2891,10 @@ sq.cage")}),
         Placement(transformation(extent = {{-138, 22}, {-118, 42}})));
       Electric.MV.GflBesCTransfDy VSC1 annotation(
         Placement(transformation(extent = {{-40, 24}, {-20, 44}})));
-  Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime = 2) annotation(
+      Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime=2)
+        annotation (
         Placement(transformation(origin = {-4, 20}, extent = {{106, 24}, {86, 44}})));
-  VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation(
+      VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation (
         Placement(transformation(origin = {2, 20}, extent = {{66, -8}, {78, 4}})));
     equation
       connect(pGrid.plug_p, qGrid.plug_n) annotation(
@@ -3013,16 +2925,19 @@ sq.cage")}),
         Line(points = {{-96, 62}, {-68, 62}}, color = {0, 0, 255}));
       connect(cable2.negativePlug, loadRLTransf.plugIn) annotation(
         Line(points = {{2, 62}, {18, 62}, {18, 42}}, color = {0, 0, 255}));
-  connect(breaker.pPlug, cable1.negativePlug) annotation(
+      connect(
+          breaker.pPlug, cable1.negativePlug) annotation (
         Line(points = {{68, 18}, {52, 18}, {52, 24}}, color = {0, 0, 255}));
-  connect(pGrid.plug_n, breaker.nPlug) annotation(
+      connect(
+          pGrid.plug_n, breaker.nPlug) annotation (
         Line(points = {{96, 18}, {80, 18}}, color = {0, 0, 255}));
-  connect(goToIsland.y, breaker.u) annotation(
-        Line(points = {{82, 54}, {72, 54}, {72, 26}}, color = {255, 0, 255}));
+      connect(
+          goToIsland.y, breaker.u) annotation (
+        Line(points={{81,54},{72,54},{72,25}},        color = {255, 0, 255}));
       annotation(
         Diagram(coordinateSystem(extent = {{-160, -60}, {160, 80}})),
         experiment(StartTime = -3, StopTime = 10, Interval = 0.000433333, Tolerance = 1e-06),
-        Documentation(info = "<html>
+        Documentation(info="<html>
 <p>the micro-grid (VSC1 + VSC2 + LoadRL + induction motor) is a net load for the external grid.</p>
 <p>however, when switching to island mode the grid forming VSC is able to sustain the micro-grid.</p>
 <ul>
@@ -3032,6 +2947,10 @@ sq.cage")}),
 <li>RL load, 50 kW with cos fi =0.9</li>
 </ul>
 <p><br>VSC2 equipped with <b>GFM-droop</b> control strategy </p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">This model reproduces the results of figure 13 of the &quot;Companion paper&quot; &nbsp;(except for the red curve in figures (c) and (d)).</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (a) are pGrid.Power, VSC1.pVsc.Power, VSC2.pVsc.Power, loadRLTransf.pLoad.power and imTransfDy.pIm.power respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltage in figure (c) is quasi RMS value measured across &quot;loadRL&quot;, loadRLTransf.voltageRMSSensor.V</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Frequency GFM-droop in figure (d) is&nbsp;VSC2.gfdBesC.GFDControl.toHz.y</span></i></p>
 </html>"));
     end case2_GFMdroop_Figure13;
 
@@ -3069,9 +2988,10 @@ sq.cage")}),
         Placement(transformation(extent = {{-116, 0}, {-96, 20}})));
       Electric.MV.GflBesCTransfDy VSC1 annotation(
         Placement(transformation(extent = {{-20, 0}, {0, 20}})));
-  Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime = 2) annotation(
+      Modelica.Blocks.Sources.BooleanStep goToIsland(each startTime=2)
+        annotation (
         Placement(transformation(origin = {26, -84}, extent = {{106, 24}, {86, 44}})));
-  VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation(
+      VSC_GFL_GFM.Electric.TestsBreakerCloser.BreakerArc breaker annotation (
         Placement(transformation(origin = {22, 4}, extent = {{66, 8}, {78, -4}}, rotation = -0)));
     equation
       connect(pGrid.plug_p, qGrid.plug_n) annotation(
@@ -3102,18 +3022,22 @@ sq.cage")}),
         Line(points = {{-22, 2.4}, {-33, 2.4}, {-33, -9.3}}, color = {0, 0, 127}));
       connect(loadRLTransf.plugIn, cable2.negativePlug) annotation(
         Line(points = {{38, 26}, {40, 26}, {40, 42}, {24, 42}}, color = {0, 0, 255}));
-  connect(breaker.pPlug, resistor.plug_p) annotation(
+      connect(
+          breaker.pPlug, resistor.plug_p) annotation (
         Line(points = {{88, 6}, {72, 6}, {72, -2}}, color = {0, 0, 255}));
-  connect(pGrid.plug_n, breaker.nPlug) annotation(
+      connect(
+          pGrid.plug_n, breaker.nPlug) annotation (
         Line(points = {{116, 6}, {100, 6}}, color = {0, 0, 255}));
-  connect(breaker.u, goToIsland.y) annotation(
-        Line(points = {{92, 0}, {92, -50}, {112, -50}}, color = {255, 0, 255}));
-  connect(VSC2.mode, goToIsland.y) annotation(
-        Line(points = {{-94, 2}, {-84, 2}, {-84, -50}, {112, -50}}, color = {255, 0, 255}));
+      connect(
+          breaker.u, goToIsland.y) annotation (
+        Line(points={{92,-1},{92,-50},{111,-50}},       color = {255, 0, 255}));
+      connect(
+          VSC2.mode, goToIsland.y) annotation (
+        Line(points={{-94,2.2},{-84,2.2},{-84,-50},{111,-50}},      color = {255, 0, 255}));
       annotation(
         Diagram(coordinateSystem(extent = {{-140, -80}, {180, 60}})),
         experiment(StartTime = -3, StopTime = 10, Interval = 0.000433333, Tolerance = 1e-06),
-        Documentation(info = "<html>
+        Documentation(info="<html>
 <p>the micro-grid (VSC1 + VSC2 + LoadRL + induction motor) is a net load for the external grid.</p>
 <p>however, when switching to island mode the grid forming VSC is able to sustain the micro-grid.</p>
 <ul>
@@ -3123,6 +3047,10 @@ sq.cage")}),
 <li>RL load, 50 kW with cos fi =0.9</li>
 </ul>
 <p><br>VSC2 equipped with <b>GFM-VSM</b> control strategy </p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">This model reproduces figure 13 (b) the red curves of (c) and (d) of the &quot;Companion paper&quot; </span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (b) are pGrid.Power, VSC1.pVsc.Power, VSC2.pVsc.Power, loadRLTransf.pLoad.power and imTransfDy.pIm.power respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltage in figure (c) is quasi RMS value measured across &quot;loadRL&quot;, loadRLTransf.voltageRMSSensor.V</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Frequency GFM-VSM in figure (d) is&nbsp;VSC2.vsmBesC.VSMcontrol.activeLoopVsm.toHz.y (d) &nbsp;&nbsp;</span></i></p>
 </html>"),
         Icon(coordinateSystem(extent = {{-140, -140}, {300, 140}})));
     end case2_GFMVSM_Figure13;
@@ -3197,6 +3125,10 @@ sq.cage")}),
 <li>induction 3ph motor consuming 15 kVA</li>
 <li>RL load, 30 kW with cos fi =0.9</li>
 </ul>
+<p><br>VSC2 equipped with <b>GFM-droop</b> control strategy</p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">This model reproduces the results of figure 14 of the &quot;Companion paper&quot; .</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (a) are VSC1.pVsc.Power, VSC2.pVsc.Power, loadRLTransf.pLoad.power and imTransfDy.pIm.power respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Frequency in figure (b) is VSC1.gfdBesC.GFDControl.toHz.y</span></i></p>
 </html>"),
         Icon(coordinateSystem(extent = {{-100, -60}, {100, 60}})));
     end case3_GFMdroop_Figure14;
@@ -3269,7 +3201,7 @@ sq.cage")}),
       annotation(
         Diagram(coordinateSystem(extent = {{-160, -60}, {140, 60}})),
         experiment(StartTime = -3, StopTime = 10, Interval = 0.000433333, Tolerance = 1e-06),
-        Documentation(info = "<html>
+        Documentation(info="<html>
 <p>the micro-grid (VSC1 + VSC2 + LoadRL + induction motor) is a net load for the external grid.</p>
 <ul>
 <li>100 kVA VSC1 grid-forming (vehicle charging point) with a connected BEV charging at 60 kW, enabled V2G control strategy</li>
@@ -3278,11 +3210,19 @@ sq.cage")}),
 <li>RL load, 50 kW with cos fi =0.9</li>
 </ul>
 <p><br>Between 2-3 s a ramp of frequency (-0.5 Hz respect nominal 50 Hz) is imposed from external main grid and the response of GFM-droop VSCs is a reduction of BEV charging power (V1G). </p>
-<p>At t = 5 s a MV voltage drop (-2&percnt; respect nominal 20 kV) is imposed and results show how GFM-droop control reacts injecting reactive power. </p>
+<p>At t = 5 s a MV voltage drop (-2&percnt; respect nominal 20 kV) is imposed and results show how GFM-droop control reacts injecting reactive power.</p>
+<p><br><i><span style=\"font-family: MS Shell Dlg 2;\">This model reproduces the results of figure 15 of the &quot;Companion paper&quot; .</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (a) are pGrid.Power, VSC1.pVsc.Power, VSC2.pVsc.Power, loadRLTransf.pLoad.power and imTransfDy.pIm.power respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Powers in figure (b) are qGrid.ReactivePower, VSC1.qVsc.ReactivePower, VSC2.qVsc.ReactivePower, loadRLTransf.qLoad.ReactivePower and imTransfDy.qIm.ReactivePower respectively.</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Frequency in figure (c) is VSC2.gfdBesC.GFDControl.toHz.y</span></i></p>
+<p><i><span style=\"font-family: MS Shell Dlg 2;\">Voltage in figure (d) is quasi RMS value measured across &quot;loadRL&quot;, loadRLTransf.voltageRMSSensor.V</span></i></p>
 </html>"),
         Icon(coordinateSystem(extent = {{-160, -60}, {140, 60}})));
     end case4_GFMdroop_Figure15;
   end PaperModels;
   annotation(
-    uses(Modelica(version = "4.0.0")));
+    uses(Modelica(version = "4.0.0")),
+  Documentation(info = "<html><head></head><body>This package is the companion of the paper by S. Barsali et al: \"Grid forming inverters for electric vehicle
+charging stations to enhance distribution grid
+resilience\", IEEE Access, 2025-<!--EndFragment--><div><br></div><div>This paper will be referenced to, in other models' documentation within this package, as \"Companion paper\"</div></body></html>"));
 end VSC_GFL_GFM;
