@@ -1,0 +1,8 @@
+The package in the folder is Modelica code and can be run using any Modelica-compliant tool.
+In particular, it can be run successfully using the free Modelica editing and simulation tool OpenModelica (www.openmodelica.org) 
+
+The first thing you  can do is to re-run the models inside the internal folder "PaperModels". Running them, you  will be able to reproduce the figures of the companion paper.
+To have a hint on what to look at first, consult the "information" box of the full package and of the model inside the PaperModels folder you will want to simulate.
+
+Then you can make any re-simulation you want, changing models parameters, and/or  structure. 
+Before  publishing results using these models, or models derived from them, consult LICENSE.TXT.
