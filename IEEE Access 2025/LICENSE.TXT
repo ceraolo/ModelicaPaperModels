@@ -1,6 +1,7 @@
 The code in this folder is associated with the following paper:
 "Grid forming inverters for electric vehicle charging stations to enhance distribution grid resilience"
 submitted for publication on IEEE Access
+(this reference will be updated once publication date and other  bibligraphic info is available)
 
 It is intended for the use of the readers of this paper. It can be re-run, as is or with changes, and the results of these simulations freely used.
 Any use of the code different from running it in a Modelica tool, e.g. inclusion in other modelica models, or reproduction of it or parts of it in published material (papers, leaflets, etc), must carry quotation of the above-mentioned paper. 
